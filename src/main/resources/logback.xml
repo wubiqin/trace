@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+
+    <property name="console_log_pattern"
+              value="[%yellow(%date{yyyy-MM-dd HH:mm:ss})] [%highlight(%-5level)] [%cyan(%trace_id)] [%magenta(%thread)] [%blue(%file:%line)] [%green(%logger)] : %.4000m%n"/>
+
+
+    <property name="file_path" value="G:\\data\\trace\\"/>
+
+    <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${file_path}/trace.log</File>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="com.wbq.log.trace.PatternLogBackTraceLayout">
+                <pattern>${console_log_pattern}</pattern>
+            </layout>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${file_path}/trace-%d{yyyy-MM-dd HH::mm:ss}.%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>512MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="com.wbq.log.trace.PatternLogBackTraceLayout">
+                <pattern>${console_log_pattern}</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="logfile"/>
+    </root>
+
+
+</configuration>
